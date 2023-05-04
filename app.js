@@ -9,7 +9,7 @@ const main = async () => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use('/', indexRoutes);
-    app.use('*', (req, res) => res.status(404).send('404 Not Found'));
+    app.use('*', (req, res) => res.status(404).send('404 Hot Found'));
     app.listen(port, () =>
         console.log(`App now running and listening on port ${port}`)
     );
