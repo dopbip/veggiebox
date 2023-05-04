@@ -1,7 +1,7 @@
 'use strict';
 const router = require('express').Router();
 
-router.get('https://veggiebox.herokuapp.com/meta_wa_callbackurl', (req, res) => {
+router.get('/meta_wa_callbackurl', (req, res) => {
     try {
         console.log('GET: Someone is pinging me!');
 
@@ -25,7 +25,7 @@ router.get('https://veggiebox.herokuapp.com/meta_wa_callbackurl', (req, res) => 
     }
 });
 
-router.post('https://veggiebox.herokuapp.com/meta_wa_callbackurl', async (req, res) => {
+router.post('/meta_wa_callbackurl', async (req, res) => {
     try {
         console.log('POST: Someone is pinging me!');
         return res.sendStatus(200);
