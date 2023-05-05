@@ -5,12 +5,6 @@ const CustomerSession = new Map();
 const router = require('express').Router();
 const WhatsappCloudAPI = require('whatsappcloudapi_wrapper');
 
-const Whatsapp = new WhatsappCloudAPI({
-    accessToken: process.env.Meta_WA_accessToken,
-    senderPhoneNumberId: process.env.Meta_WA_SenderPhoneNumberId,
-    WABA_ID: process.env.Meta_WA_wabaId, 
-    graphAPIVersion: 'v14.0'
-});
 router.get('/meta_wa_callbackurl', (req, res) => {
     try {
         let mode = req.query['hub.mode'];
@@ -35,6 +29,12 @@ router.get('/meta_wa_callbackurl', (req, res) => {
 
 router.post('/meta_wa_callbackurl', async (req, res) => {
     try {
+        const Whatsapp = new WhatsappCloudAPI({
+            accessToken: process.env.Meta_WA_accessToken,
+            senderPhoneNumberId: process.env.Meta_WA_SenderPhoneNumberId,
+            WABA_ID: process.env.Meta_WA_wabaId, 
+            graphAPIVersion: 'v14.0'
+        });
         let data = Whatsapp.parseMessage(req.body);
 
         if (data?.isMessage) {
