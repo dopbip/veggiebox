@@ -29,6 +29,7 @@ router.get('/meta_wa_callbackurl', (req, res) => {
 
 router.post('/meta_wa_callbackurl', async (req, res) => {
     console.log('POST: Someone is pinging me!');
+    console.log(req)
     try {
         const Whatsapp = new WhatsappCloudAPI({
             accessToken: process.env.Meta_WA_accessToken,
