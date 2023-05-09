@@ -4,7 +4,6 @@ let Store = new EcommerceStore();
 const CustomerSession = new Map();
 const router = require('express').Router();
 const WhatsappCloudAPI = require('whatsappcloudapi_wrapper');
-const bodyParser = require('body-parser');
 const { SessionsClient } = require('dialogflow');
 const { struct } = require('pb-util');
 const { google } = require('googleapis');
