@@ -6,6 +6,7 @@ let indexRoutes = require('./routes/index.js');
 
 const main = async () => {
     const app = express();
+    app.use(bodyParser.json());
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use('/', indexRoutes);
