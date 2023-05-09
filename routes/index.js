@@ -86,7 +86,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             recipient: sender,
             timestamp: timestamp,
             };
-
+            console.log(fulfillmentText)
             await WhatsApp.sendText(recipientPhone, fulfillmentText)
             // if (typeOfMsg === 'text_message') {
             //     await Whatsapp.sendSimpleButtons({
