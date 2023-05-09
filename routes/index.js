@@ -10,7 +10,7 @@ const { google } = require('googleapis');
 const { JWT } = require('google-auth-library');
 
 const projectId = 'veggiebox-agent-pkpa';
-const keyFilePath = "./../google_jwt/veggiebox-agent-pkpa.json";
+const keyFilePath = "././google_jwt/veggiebox-agent-pkpa.json";
 
 // Create a new JWT client using the service account key
 const client = new JWT({
