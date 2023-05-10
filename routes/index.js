@@ -56,7 +56,8 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             graphAPIVersion: 'v14.0'
         });
         let data = Whatsapp.parseMessage(req.body);
-
+            console.log("||||||data||||||||")
+            console.log(data)
         if (data?.isMessage) {
             let incomingMessage = data.message;
             let recipientPhone = incomingMessage.from.phone; // extract the phone number of sender
@@ -64,7 +65,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             let recipientName = incomingMessage.from.name;
             let typeOfMsg = incomingMessage.type; // extract the type of message (some are text, others are images, others are responses to buttons etc...)
             let message_id = incomingMessage.message_id; // extract the message id
-            console.log(")))))))))))")
+            console.log("))))))incomingMessage)))))")
             console.log(incomingMessage)
              // Create a new session ID using the WhatsApp phone number
             const sessionId = recipientPhone.split('@')[0];
@@ -85,15 +86,15 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
 
             // Extract the response from Dialogflow and send it back to WhatsApp
             const { fulfillmentText } = dialogflowResponse[0].queryResult;
-            console.log("+++++++")
-            console.log(fulfillmentText)
+            console.log("+++dialogflowResponse++++")
+            console.log(dialogflowResponse)
             const response = {
             message: fulfillmentText,
-            recipient: recipientPhone,
+            recipientPhone: recipientPhone,
             //timestamp: timestamp,
             };
             console.log(fulfillmentText)
-            await Whatsapp.sendText({recipientPhone: recipientPhone, message:fulfillmentText})
+            await Whatsapp.sendText(response)
             // if (typeOfMsg === 'text_message') {
             //     await Whatsapp.sendSimpleButtons({
             //         message: `Hey ${recipientName}, \nYou are speaking to a chatbot.\nWhat do you want to do next?`,
