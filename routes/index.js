@@ -11,12 +11,18 @@ const { JWT } = require('google-auth-library');
 
 const projectId = 'veggiebox-agent-pkpa';
 const keyFilePath = "././google_jwt/veggiebox-agent-pkpa.json";
+const config = {
+    credentials: {
+      private_key: process.env.DIALOGFLOW_PRIVATE_KEY,
+      client_email: process.env.DIALOGFLOW_CLIENT_EMAIL
+    }
+  };
 
 // Create a new JWT client using the service account key
-const client = new JWT({
-    keyFile: keyFilePath,
-    scopes: ['https://www.googleapis.com/auth/cloud-platform']
-  })
+// const client = new JWT({
+//     keyFile: keyFilePath,
+//     scopes: ['https://www.googleapis.com/auth/cloud-platform']
+//   })
 
 router.get('/meta_wa_callbackurl', (req, res) => {
     try {
@@ -61,10 +67,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
              // Create a new session ID using the WhatsApp phone number
             const sessionId = recipientPhone.split('@')[0];
             // Create a new Dialogflow session client using the service account key
-            const sessionClient = new SessionsClient({
-                projectId,
-                credentials: await client.authorize(),
-            });
+            const sessionClient = new SessionsClient(config);
 
             // Send the message to Dialogflow for processing
             const session = sessionClient.sessionPath(projectId, sessionId);
@@ -86,7 +89,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             timestamp: timestamp,
             };
             console.log(fulfillmentText)
-            await WhatsApp.sendText(recipientPhone, fulfillmentText)
+            await Whatsapp.sendText(recipientPhone, fulfillmentText)
             // if (typeOfMsg === 'text_message') {
             //     await Whatsapp.sendSimpleButtons({
             //         message: `Hey ${recipientName}, \nYou are speaking to a chatbot.\nWhat do you want to do next?`,
