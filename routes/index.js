@@ -56,7 +56,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             graphAPIVersion: 'v14.0'
         });
         console.log("||||||Whatsapp.parseMessage||||||||")
-            console.log(Whatsapp.parseMessage(req))
+            console.log(Whatsapp)
         let data = Whatsapp.parseMessage(req.body);
             console.log("||||||data||||||||")
             console.log(data)
