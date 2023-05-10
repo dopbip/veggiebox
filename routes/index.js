@@ -85,7 +85,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             const { fulfillmentText } = dialogflowResponse[0].queryResult;
             const response = {
             message: fulfillmentText,
-            recipient: sender,
+            recipient: recipientPhone,
             timestamp: timestamp,
             };
             console.log(fulfillmentText)
