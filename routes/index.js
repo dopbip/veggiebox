@@ -86,7 +86,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             const response = {
             message: fulfillmentText,
             recipient: recipientPhone,
-            timestamp: timestamp,
+            //timestamp: timestamp,
             };
             console.log(fulfillmentText)
             await Whatsapp.sendText(recipientPhone, fulfillmentText)
