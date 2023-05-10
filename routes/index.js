@@ -60,6 +60,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
         if (data?.isMessage) {
             let incomingMessage = data.message;
             let recipientPhone = incomingMessage.from.phone; // extract the phone number of sender
+            let messageContent = incomingMessage.text.body;
             let recipientName = incomingMessage.from.name;
             let typeOfMsg = incomingMessage.type; // extract the type of message (some are text, others are images, others are responses to buttons etc...)
             let message_id = incomingMessage.message_id; // extract the message id
@@ -76,7 +77,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             session,
             queryInput: {
                 text: {
-                text: incomingMessage,
+                text: messageContent,
                 languageCode: 'en-US',
                 },
             },
@@ -84,7 +85,8 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
 
             // Extract the response from Dialogflow and send it back to WhatsApp
             const { fulfillmentText } = dialogflowResponse[0].queryResult;
-            
+            console.log("+++++++")
+            console.log(fulfillmentText)
             const response = {
             message: fulfillmentText,
             recipient: recipientPhone,
