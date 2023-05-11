@@ -55,10 +55,10 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             WABA_ID: process.env.Meta_WA_wabaId, 
             graphAPIVersion: 'v14.0'
         });
-        console.log("||||||Whatsapp.parseMessage||||||||")
-            console.log(Whatsapp)
+        // console.log("||||||Whatsapp.parseMessage||||||||")
+        //     console.log(Whatsapp)
         let data = Whatsapp.parseMessage(req.body);
-            console.log("||||||data||||||||")
+            //console.log("||||||data||||||||")
             //console.log(data)
         if (data?.isMessage) {
             let incomingMessage = data.message;
