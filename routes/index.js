@@ -68,7 +68,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             let typeOfMsg = incomingMessage.type; // extract the type of message (some are text, others are images, others are responses to buttons etc...)
             let message_id = incomingMessage.message_id; // extract the message id
             console.log("))))))incomingMessage)))))")
-            //console.log(incomingMessage)
+            console.log(messageContent)
              // Create a new session ID using the WhatsApp phone number
             const sessionId = recipientPhone.split('@')[0];
             // Create a new Dialogflow session client using the service account key
