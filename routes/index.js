@@ -88,8 +88,30 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
 
             // Extract the response from Dialogflow and send it back to WhatsApp
             const { fulfillmentText } = dialogflowResponse[0].queryResult;
+            const { action } = dialogflowResponse[0].action;
             console.log("+++dialogflowResponse++++")
             console.log(dialogflowResponse)
+            switch (action) {
+                case 'greeting':
+                    await Whatsapp.sendSimpleButtons({
+                                message: `Hey ${recipientName}, \nPlease choose from the following:`,
+                                recipientPhone: recipientPhone, 
+                                listOfButtons: [
+                                    {
+                                        title: 'Fruits',
+                                        id: 'fruit_category',
+                                    },
+                                    {
+                                        title: 'Vegetables',
+                                        id: 'veg_category',
+                                    },
+                                ],
+                            });
+                    break;
+            
+                default:
+                    break;
+            }
             const response = {
             message: fulfillmentText,
             recipientPhone: recipientPhone,
