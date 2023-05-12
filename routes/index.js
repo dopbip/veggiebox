@@ -88,9 +88,9 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
 
             // Extract the response from Dialogflow and send it back to WhatsApp
             const { fulfillmentText } = dialogflowResponse[0].queryResult;
-            const { action } = dialogflowResponse[0].action;
             console.log("+++dialogflowResponse++++")
             console.log(dialogflowResponse)
+            const { action } = dialogflowResponse[0].action;
             switch (action) {
                 case 'greeting':
                     await Whatsapp.sendSimpleButtons({
