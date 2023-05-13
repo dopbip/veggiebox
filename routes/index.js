@@ -91,6 +91,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             console.log("+++dialogflowResponse++++")
             console.log(dialogflowResponse)
             const { action } = dialogflowResponse[0].queryResult;
+    //Actions cases        
             switch (action) {
                 case 'greeting':
                     await Whatsapp.sendSimpleButtons({
@@ -108,33 +109,28 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 ],
                             });
                     break;
+                case 'orderFruits':
+                    break
+                default:
+                    const response = {
+                        message: fulfillmentText,
+                        recipientPhone: recipientPhone,
+                        //timestamp: timestamp,
+                        };
+                        console.log(fulfillmentText)
+                        await Whatsapp.sendText(response)
+                    break;
+            }
+
+            switch (key) {
+                case value:
+                    
+                    break;
             
                 default:
                     break;
             }
-            const response = {
-            message: fulfillmentText,
-            recipientPhone: recipientPhone,
-            //timestamp: timestamp,
-            };
-            console.log(fulfillmentText)
-            await Whatsapp.sendText(response)
-            // if (typeOfMsg === 'text_message') {
-            //     await Whatsapp.sendSimpleButtons({
-            //         message: `Hey ${recipientName}, \nYou are speaking to a chatbot.\nWhat do you want to do next?`,
-            //         recipientPhone: recipientPhone, 
-            //         listOfButtons: [
-            //             {
-            //                 title: 'View some products',
-            //                 id: 'see_categories',
-            //             },
-            //             {
-            //                 title: 'Speak to a human',
-            //                 id: 'speak_to_human',
-            //             },
-            //         ],
-            //     });
-            // }
+           
         }
 
         console.log('GET: Someone is pinging me!');
