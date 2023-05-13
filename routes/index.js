@@ -90,7 +90,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             const { fulfillmentText } = dialogflowResponse[0].queryResult;
             console.log("+++dialogflowResponse++++")
             console.log(dialogflowResponse)
-            const { action } = dialogflowResponse[0].action;
+            const { action } = dialogflowResponse[0].queryResult;
             switch (action) {
                 case 'greeting':
                     await Whatsapp.sendSimpleButtons({
