@@ -3,12 +3,12 @@ const request = require('request');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 
-module.exports = class EcommerceStore {
+module.exports = class VeggieBoxStore {
     constructor() {}
     async _fetchAssistant(endpoint) {
         return new Promise((resolve, reject) => {
             request.get(
-                `https://fakestoreapi.com${endpoint ? endpoint : '/'}`,
+                `https://veggiebox-api.herokuapp.com${endpoint ? endpoint : '/'}`,
                 (error, res, body) => {
                     try {
                         if (error) {
@@ -35,7 +35,7 @@ module.exports = class EcommerceStore {
     }
     async getProductsInCategory(categoryId) {
         return await this._fetchAssistant(
-            `/products/category/${categoryId}?limit=10`
+            `api/products/category/${categoryId}`
         );
     }
 

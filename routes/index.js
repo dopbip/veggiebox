@@ -1,6 +1,6 @@
 'use strict';
-const EcommerceStore = require('./../utils/ecommerce_store.js');
-let Store = new EcommerceStore();
+const VeggieBoxStore = require('../utils/veggiebox_store.js');
+let Store = new VeggieBoxStore();
 const CustomerSession = new Map();
 const router = require('express').Router();
 const WhatsappCloudAPI = require('whatsappcloudapi_wrapper');
@@ -86,16 +86,47 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             },
             });
 
+            //Get button id
+            if (typeOfMsg === 'simple_button_message') {
+                let button_id = incomingMessage.button_reply.id;
+                let message = ``
+                switch (button_id) {
+                    case 'fruit_category':
+                        let listOfProducts = await Store.getProductsInCategory(button_id);
+                        listOfProducts.data.map((product) => {
+                            let emoji = product.emoji
+                            let name = product.name
+                            let packPrice = product.pack_price
+                            let packedItems = product.packed_items
+                            message += `${emoji} ${name} Pack of ${packedItems}  k${packPrice}\n`
+                        })
+                        message += `Tell me which fruits you want and how packs.\neg. 2 pack banana`
+                        const reply = {
+                            message: message,
+                            recipientPhone: recipientPhone,
+                            //timestamp: timestamp,
+                            }
+                        Whatsapp.sendText(reply)
+                        break;
+                    case '':
+
+                        break
+
+                    default:
+                        break;
+                }
+            }
+
             // Extract the response from Dialogflow and send it back to WhatsApp
             const { fulfillmentText } = dialogflowResponse[0].queryResult;
             console.log("+++dialogflowResponse++++")
             console.log(dialogflowResponse)
             const { action } = dialogflowResponse[0].queryResult;
-    //Actions cases        
+            //Actions cases        
             switch (action) {
                 case 'greeting':
                     await Whatsapp.sendSimpleButtons({
-                                message: `Hey ${recipientName}, \nPlease choose from the following:`,
+                                message: `Hey ${recipientName}, am AI chatbota and am here to assist you! \nPlease choose from the following:`,
                                 recipientPhone: recipientPhone, 
                                 listOfButtons: [
                                     {
@@ -105,6 +136,10 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                     {
                                         title: 'Vegetables',
                                         id: 'veg_category',
+                                    },
+                                    {
+                                        title: 'Speak to a human',
+                                        id: 'speak_to_human',
                                     },
                                 ],
                             });
@@ -119,15 +154,6 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                         };
                         console.log(fulfillmentText)
                         await Whatsapp.sendText(response)
-                    break;
-            }
-
-            switch (key) {
-                case value:
-                    
-                    break;
-            
-                default:
                     break;
             }
            

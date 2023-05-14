@@ -29,7 +29,6 @@
     "request": "^2.88.2",
     "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
-    "mongoose": "^5.9.13",
     "whatsappcloudapi_wrapper": "^1.0.13"
   }
 }
