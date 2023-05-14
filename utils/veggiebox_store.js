@@ -35,7 +35,7 @@ module.exports = class VeggieBoxStore {
     }
     async getProductsInCategory(categoryId) {
         return await this._fetchAssistant(
-            `api/products/category/${categoryId}`
+            `/api/products/category/${categoryId}`
         );
     }
 
