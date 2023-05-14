@@ -58,8 +58,8 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
         // console.log("||||||Whatsapp.parseMessage||||||||")
         //     console.log(Whatsapp)
         let data = Whatsapp.parseMessage(req.body);
-            console.log("||||||data||||||||")
-            console.log(data)
+            console.log("||||||Whatsapp.parseMessage||||||||")
+            console.log( Whatsapp.parseMessage)
         if (data?.isMessage) {
             let incomingMessage = data.message;
             let recipientPhone = incomingMessage.from.phone; // extract the phone number of sender
