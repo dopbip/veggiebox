@@ -115,7 +115,9 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 });
                         break;
                     case 'orderFruits':
-                            console.log(parameters)
+                                let listFruit = parameters.fields['list-Fruits'].listValue
+                                
+                            console.log(listFruit)
                         break
                     default:
                         const response = {
