@@ -72,16 +72,16 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             const sessionClient = new SessionsClient(config);
             
             if (typeOfMsg === 'text_message') {
-                let messageContent = incomingMessage.text.body;
+                let incomingMessageContent = incomingMessage.text.body;
                 console.log("))))))incomingMessage)))))")
-                console.log(messageContent)
+                console.log(incomingMessageContent)
                 // Send the message to Dialogflow for processing
                 const session = sessionClient.sessionPath(projectId, sessionId);
                 const dialogflowResponse = await sessionClient.detectIntent({
                 session,
                 queryInput: {
                     text: {
-                    text: messageContent,
+                    text: incomingMessageContent,
                     languageCode: 'en-US',
                     },
                 },
@@ -91,6 +91,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                 console.log("+++dialogflowResponse++++")
                 console.log(dialogflowResponse)
                 const { action } = dialogflowResponse[0].queryResult;
+                const { fulfillmentMessages } = dialogflowResponse[0].queryResult
                 //Actions cases        
                 switch (action) {
                     case 'greeting':
@@ -114,6 +115,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 });
                         break;
                     case 'orderFruits':
+                            console.log(fulfillmentMessages)
                         break
                     default:
                         const response = {
