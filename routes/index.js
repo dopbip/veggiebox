@@ -63,7 +63,6 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
         if (data?.isMessage) {
             let incomingMessage = data.message;
             let recipientPhone = incomingMessage.from.phone; // extract the phone number of sender
-            let messageContent = incomingMessage.text.body;
             let recipientName = incomingMessage.from.name;
             let typeOfMsg = incomingMessage.type; // extract the type of message (some are text, others are images, others are responses to buttons etc...)
             let message_id = incomingMessage.message_id; // extract the message id
@@ -73,18 +72,61 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             const sessionId = recipientPhone.split('@')[0];
             // Create a new Dialogflow session client using the service account key
             const sessionClient = new SessionsClient(config);
-
-            // Send the message to Dialogflow for processing
-            const session = sessionClient.sessionPath(projectId, sessionId);
-            const dialogflowResponse = await sessionClient.detectIntent({
-            session,
-            queryInput: {
-                text: {
-                text: messageContent,
-                languageCode: 'en-US',
+            
+            if (typeOfMsg === 'text_message') {
+                let messageContent = incomingMessage.text.body;
+                // Send the message to Dialogflow for processing
+                const session = sessionClient.sessionPath(projectId, sessionId);
+                const dialogflowResponse = await sessionClient.detectIntent({
+                session,
+                queryInput: {
+                    text: {
+                    text: messageContent,
+                    languageCode: 'en-US',
+                    },
                 },
-            },
-            });
+                });
+                    // Extract the response from Dialogflow and send it back to WhatsApp
+                const { fulfillmentText } = dialogflowResponse[0].queryResult;
+                console.log("+++dialogflowResponse++++")
+                console.log(dialogflowResponse)
+                const { action } = dialogflowResponse[0].queryResult;
+                //Actions cases        
+                switch (action) {
+                    case 'greeting':
+                        await Whatsapp.sendSimpleButtons({
+                                    message: `Hey ${recipientName}, am AI chatbota and am here to assist you! \nPlease choose from the following:`,
+                                    recipientPhone: recipientPhone, 
+                                    listOfButtons: [
+                                        {
+                                            title: 'Fruits',
+                                            id: 'fruit_category',
+                                        },
+                                        {
+                                            title: 'Vegetables',
+                                            id: 'veg_category',
+                                        },
+                                        {
+                                            title: 'Speak to a human',
+                                            id: 'speak_to_human',
+                                        },
+                                    ],
+                                });
+                        break;
+                    case 'orderFruits':
+                        break
+                    default:
+                        const response = {
+                            message: fulfillmentText,
+                            recipientPhone: recipientPhone,
+                            //timestamp: timestamp,
+                            };
+                            console.log(fulfillmentText)
+                            await Whatsapp.sendText(response)
+                        break;
+                }
+
+            }
 
             //Get button id
             if (typeOfMsg === 'simple_button_message') {
@@ -117,46 +159,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                 }
             }
 
-            // Extract the response from Dialogflow and send it back to WhatsApp
-            const { fulfillmentText } = dialogflowResponse[0].queryResult;
-            console.log("+++dialogflowResponse++++")
-            console.log(dialogflowResponse)
-            const { action } = dialogflowResponse[0].queryResult;
-            //Actions cases        
-            switch (action) {
-                case 'greeting':
-                    await Whatsapp.sendSimpleButtons({
-                                message: `Hey ${recipientName}, am AI chatbota and am here to assist you! \nPlease choose from the following:`,
-                                recipientPhone: recipientPhone, 
-                                listOfButtons: [
-                                    {
-                                        title: 'Fruits',
-                                        id: 'fruit_category',
-                                    },
-                                    {
-                                        title: 'Vegetables',
-                                        id: 'veg_category',
-                                    },
-                                    {
-                                        title: 'Speak to a human',
-                                        id: 'speak_to_human',
-                                    },
-                                ],
-                            });
-                    break;
-                case 'orderFruits':
-                    break
-                default:
-                    const response = {
-                        message: fulfillmentText,
-                        recipientPhone: recipientPhone,
-                        //timestamp: timestamp,
-                        };
-                        console.log(fulfillmentText)
-                        await Whatsapp.sendText(response)
-                    break;
-            }
-           
+                      
         }
 
         console.log('GET: Someone is pinging me!');
