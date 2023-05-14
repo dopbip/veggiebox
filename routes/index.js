@@ -95,7 +95,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                 switch (action) {
                     case 'greeting':
                         await Whatsapp.sendSimpleButtons({
-                                    message: `Hey ${recipientName}, am AI chatbota and am here to assist you! \nPlease choose from the following:`,
+                                    message: `Hey ${recipientName}, am AI chatbot and am here to assist you! \nPlease choose from the following:`,
                                     recipientPhone: recipientPhone, 
                                     listOfButtons: [
                                         {
@@ -140,9 +140,9 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             let name = product.name
                             let packPrice = product.pack_price
                             let packedItems = product.packed_items
-                            message += `${emoji} ${name} Pack of ${packedItems}  k${packPrice}\n`
+                            message += `${emoji} ${name} Pack of ${packedItems}  k${packPrice}\n\n`
                         })
-                        message += `Tell me which fruits you want and how packs.\neg. 2 pack banana`
+                        message += `\n\nTell me which fruits you want and how many packs.\n_eg. 2 packs banana_`
                         const reply = {
                             message: message,
                             recipientPhone: recipientPhone,
