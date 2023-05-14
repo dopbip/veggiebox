@@ -131,7 +131,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             //Get button id
             if (typeOfMsg === 'simple_button_message') {
                 let button_id = incomingMessage.button_reply.id;
-                let message = ``
+                let message = `*FRUITS*\n`
                 switch (button_id) {
                     case 'fruit_category':
                         let listOfProducts = await Store.getProductsInCategory(button_id);
@@ -142,7 +142,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             let packedItems = product.packed_items
                             message += `${emoji} ${name} Pack of ${packedItems}  k${packPrice}\n\n`
                         })
-                        message += `\n\nTell me which fruits you want and how many packs.\n_eg. 2 packs banana_`
+                        message += `\nTell me which fruits you want and how many packs.\n_eg. 2 packs banana_`
                         const reply = {
                             message: message,
                             recipientPhone: recipientPhone,
