@@ -91,7 +91,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                 console.log("+++dialogflowResponse++++")
                 console.log(dialogflowResponse)
                 const { action } = dialogflowResponse[0].queryResult;
-                const { fulfillmentMessages } = dialogflowResponse[0].queryResult
+                const { parameters } = dialogflowResponse[0].queryResult
                 //Actions cases        
                 switch (action) {
                     case 'greeting':
@@ -115,7 +115,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 });
                         break;
                     case 'orderFruits':
-                            console.log(fulfillmentMessages)
+                            console.log(parameters)
                         break
                     default:
                         const response = {
