@@ -115,10 +115,19 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 });
                         break;
                     case 'orderFruits':
+                                let strOrders = ``
                                 let listFruitOrdered = parameters.fields['list-Fruits'].listValue.values
                                 let listPriceOrdered = parameters.fields['number'].listValue.values
+                                listFruitOrdered.map((item) => {
+                                    let name = item.stringValue
+                                    strOrders += `${name}_`
+                                    listPriceOrdered.map((item) => {
+                                        let price = item.numberValue
+                                        strOrders += `${price},`
+                                    })
+                                })
                                 console.log("++++listPriceOrdered+++")
-                            console.log(listPriceOrdered)
+                            console.log(strOrders)
                         break
                     default:
                         const response = {
