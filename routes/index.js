@@ -126,7 +126,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                     let price = item.numberValue
                                     arrFruitsPrice.push(price)
                                 })
-                                var zipped = _.zip(listFruitOrdered, listPriceOrdered)
+                                var zipped = _.zip(arrFruitsName, arrFruitsPrice)
                                 console.log("++++listPriceOrdered+++")
                             console.log(zipped)
                         break
