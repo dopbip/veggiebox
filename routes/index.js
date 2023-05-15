@@ -117,6 +117,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 let arrFruitsName = []
                                 let arrFruitsPrice = []
                                 let listFruitOrdered = parameters.fields['list-Fruits'].listValue.values
+                                console.log(listFruitOrdered)
                                 let listPriceOrdered = parameters.fields['number'].listValue.values
                                 listFruitOrdered.map((item) => {                                    
                                     let name = item.stringValue
