@@ -5,10 +5,8 @@ const CustomerSession = new Map();
 const router = require('express').Router();
 const WhatsappCloudAPI = require('whatsappcloudapi_wrapper');
 const { SessionsClient } = require('dialogflow');
-const { struct } = require('pb-util');
-const { google } = require('googleapis');
 const { JWT } = require('google-auth-library');
-const { replace } = require('lodash');
+const _ = require('lodash');
 
 const projectId = 'veggiebox-agent-pkpa';
 const keyFilePath = "././google_jwt/veggiebox-agent-pkpa.json";
@@ -122,20 +120,22 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 let e = 0
                                 let listFruitOrdered = parameters.fields['list-Fruits'].listValue.values
                                 let listPriceOrdered = parameters.fields['number'].listValue.values
-                                listFruitOrdered.map((item) => {                                    
-                                    let name = item.stringValue
-                                    strOrders += `${name}_${i},`
-                                    i +=1                    
-                                })
-                                listPriceOrdered.map((item) => {
-                                    let price = item.numberValue
-                                    console.log(strOrders.replace(e,price))
-                                    e +=1
-                                    //strOrdersDone
-                                })
+
+                                var zipped = _.zip(listFruitOrdered, listPriceOrdered)
+                                // listFruitOrdered.map((item) => {                                    
+                                //     let name = item.stringValue
+                                //     strOrders += `${name}_${i},`
+                                //     i +=1                    
+                                // })
+                                // listPriceOrdered.map((item) => {
+                                //     let price = item.numberValue
+                                //     console.log(strOrders.replace(e,price))
+                                //     e +=1
+                                //     //strOrdersDone
+                                // })
                                 
                                 console.log("++++listPriceOrdered+++")
-                            console.log(strOrdersDone)
+                            console.log(zipped)
                         break
                     default:
                         const response = {
