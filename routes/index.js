@@ -119,12 +119,14 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 let listFruitOrdered = parameters.fields['list-Fruits'].listValue.values
                                 let listPriceOrdered = parameters.fields['number'].listValue.values
                                 listFruitOrdered.map((item) => {
+                                    let i = 0
                                     let name = item.stringValue
-                                    strOrders += `${name}_`
-                                    listPriceOrdered.map((item) => {
-                                        let price = item.numberValue
-                                        strOrders += `${price},`
-                                    })
+                                    strOrders += `${name}_${i}`
+                                    i++
+                                    // listPriceOrdered.map((item) => {
+                                    //     let price = item.numberValue
+                                    //     strOrders += `${price},`
+                                    // })
                                 })
                                 console.log("++++listPriceOrdered+++")
                             console.log(strOrders)
