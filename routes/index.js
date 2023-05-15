@@ -117,7 +117,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                         break;
                     case 'orderFruits':
                                 let strOrders = ``
-                                let strOrderDone
+                                let strOrdersDone = ``
                                 let i = 0
                                 let e = 0
                                 let listFruitOrdered = parameters.fields['list-Fruits'].listValue.values
@@ -129,11 +129,12 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 })
                                 listPriceOrdered.map((item) => {
                                     let price = item.numberValue
-                                    strOrderDone = strOrders.replace(e,`${price}`)
+                                    strOrders.replace(e,`${price}`)
                                     e +=1
                                 })
+                                strOrdersDone = strOrders
                                 console.log("++++listPriceOrdered+++")
-                            console.log(strOrderDone)
+                            console.log(strOrdersDone)
                         break
                     default:
                         const response = {
