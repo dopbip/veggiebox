@@ -130,6 +130,9 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 var zipped = _.zip(arrFruitsName, arrFruitsPrice)
                                 console.log("++++listPriceOrdered+++")
                             console.log(zipped)
+                            //Go Get fruits total price
+                            let reply = await Store.getItemsPrice(zipped, 'fruit_category')
+                            console.log(reply)
                         break
                     default:
                         const response = {

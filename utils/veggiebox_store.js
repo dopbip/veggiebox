@@ -26,7 +26,26 @@ module.exports = class VeggieBoxStore {
             );
         });
     }
+    async _postAssistant(endpoint, itemObj, categoryId) {
+        var options = {
+            'method': 'POST',
+            'url': `https://veggiebox-api.herokuapp.com/${endpoint}`,
+            'headers': {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              "data": itemObj,
+              "categoryId": categoryId
+            })
+          
+          };
 
+        request(options, (error, response) => {
+            if (error) throw new Error(error);
+            console.log(response.body);
+            return response.body
+          });
+    }
     async getProductById(productId) {
         return await this._fetchAssistant(`/products/${productId}`);
     }
@@ -37,6 +56,10 @@ module.exports = class VeggieBoxStore {
         return await this._fetchAssistant(
             `/api/products/category/${categoryId}`
         );
+    }
+
+    async getItemsPrice(itemObj, categoryId) {
+        return await this._postAssistant(`/api/products/price`,itemObj, categoryId)
     }
 
     generatePDFInvoice({ order_details, file_path }) {
