@@ -8,6 +8,7 @@ const { SessionsClient } = require('dialogflow');
 const { struct } = require('pb-util');
 const { google } = require('googleapis');
 const { JWT } = require('google-auth-library');
+const { replace } = require('lodash');
 
 const projectId = 'veggiebox-agent-pkpa';
 const keyFilePath = "././google_jwt/veggiebox-agent-pkpa.json";
@@ -117,17 +118,20 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                     case 'orderFruits':
                                 let strOrders = ``
                                 let i = 0
+                                let e = 0
                                 let listFruitOrdered = parameters.fields['list-Fruits'].listValue.values
                                 let listPriceOrdered = parameters.fields['number'].listValue.values
                                 listFruitOrdered.map((item) => {                                    
                                     let name = item.stringValue
                                     strOrders += `${name}_${i},`
-                                    i +=1
-                                    // listPriceOrdered.map((item) => {
-                                    //     let price = item.numberValue
-                                    //     strOrders += `${price},`
-                                    // })
+                                    i +=1                    
                                 })
+                                listPriceOrdered.map((item) => {
+                                    let price = item.numberValue
+                                    strOrders += strOrders.replace(e,`${price}`)
+                                    e +=1
+                                })
+
                                 console.log("++++listPriceOrdered+++")
                             console.log(strOrders)
                         break
