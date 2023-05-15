@@ -29,7 +29,7 @@ module.exports = class VeggieBoxStore {
     async _postAssistant(endpoint, itemObj, categoryId) {
         var options = {
             'method': 'POST',
-            'url': `https://veggiebox-api.herokuapp.com/${endpoint}`,
+            'url': `https://veggiebox-api.herokuapp.com${endpoint}`,
             'headers': {
               'Content-Type': 'application/json'
             },
