@@ -114,26 +114,19 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 });
                         break;
                     case 'orderFruits':
-                                let strOrders = ``
-                                let strOrdersDone
-                                let i = 0
-                                let e = 0
+                                let arrFruitsName = []
+                                let arrFruitsPrice = []
                                 let listFruitOrdered = parameters.fields['list-Fruits'].listValue.values
                                 let listPriceOrdered = parameters.fields['number'].listValue.values
-
+                                listFruitOrdered.map((item) => {                                    
+                                    let name = item.stringValue
+                                    arrFruitsName.push(name)                 
+                                })
+                                listPriceOrdered.map((item) => {
+                                    let price = item.numberValue
+                                    arrFruitsPrice.push(price)
+                                })
                                 var zipped = _.zip(listFruitOrdered, listPriceOrdered)
-                                // listFruitOrdered.map((item) => {                                    
-                                //     let name = item.stringValue
-                                //     strOrders += `${name}_${i},`
-                                //     i +=1                    
-                                // })
-                                // listPriceOrdered.map((item) => {
-                                //     let price = item.numberValue
-                                //     console.log(strOrders.replace(e,price))
-                                //     e +=1
-                                //     //strOrdersDone
-                                // })
-                                
                                 console.log("++++listPriceOrdered+++")
                             console.log(zipped)
                         break
