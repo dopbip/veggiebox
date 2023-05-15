@@ -59,7 +59,7 @@ module.exports = class VeggieBoxStore {
     }
 
     async getItemsPrice(itemObj, categoryId) {
-        return await this._postAssistant(`/api/products/price`,itemObj, categoryId)
+        return await this._postAssistant(`api/products/price`,itemObj, categoryId)
     }
 
     generatePDFInvoice({ order_details, file_path }) {
