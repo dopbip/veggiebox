@@ -116,10 +116,10 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                         break;
                     case 'orderFruits':
                                 let strOrders = ``
+                                let i = 0
                                 let listFruitOrdered = parameters.fields['list-Fruits'].listValue.values
                                 let listPriceOrdered = parameters.fields['number'].listValue.values
-                                listFruitOrdered.map((item) => {
-                                    let i = 0
+                                listFruitOrdered.map((item) => {                                    
                                     let name = item.stringValue
                                     strOrders += `${name}_${i},`
                                     i +=1
