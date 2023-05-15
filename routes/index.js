@@ -131,8 +131,8 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                     let price = item.numberValue
                                     strOrders.replace(e,`${price}`)
                                     e +=1
+                                    console.log(strOrders)
                                 })
-                                strOrdersDone = strOrders
                                 console.log("++++listPriceOrdered+++")
                             console.log(strOrdersDone)
                         break
