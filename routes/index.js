@@ -122,7 +122,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                     let i = 0
                                     let name = item.stringValue
                                     strOrders += `${name}_${i},`
-                                    i++
+                                    i +=1
                                     // listPriceOrdered.map((item) => {
                                     //     let price = item.numberValue
                                     //     strOrders += `${price},`
