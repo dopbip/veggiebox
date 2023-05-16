@@ -26,27 +26,28 @@ module.exports = class VeggieBoxStore {
             );
         });
     }
-    async getItemsPrice(itemObj, categoryId) {
-        let replyText
-        var options = {
-            'method': 'POST',
-            'url': `https://veggiebox-api.herokuapp.com/api/products/price`,
-            'headers': {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              "data": itemObj,
-              "categoryId": categoryId
-            })
-          
-          };
+    async _postAssistant(endpoint, requestBody) {        
+        const options = {
+            url: `https://veggiebox-api.herokuapp.com${endpoint ? endpoint : '/'}`,
+            method: 'POST',
+            json: true,
+            body: requestBody,
+        };
 
-        request(options, (error, response) => {
-            if (error) throw new Error(error);
-            console.log(response.body);
-             replyText = response.body
-             return replyText
-          });
+        request(options, (error, res, body) => {
+            try {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve({
+                        status: 'success',
+                        data: body,
+                    });
+                }
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
     async getProductById(productId) {
         return await this._fetchAssistant(`/products/${productId}`);
@@ -60,9 +61,9 @@ module.exports = class VeggieBoxStore {
         );
     }
 
-    // async getItemsPrice(itemObj, categoryId) {
-    //     return await this._postAssistant(`/api/products/price`,itemObj, categoryId)
-    // }
+    async getItemsPrice(requestBody, category) {
+        return await this._postAssistant(`/api/products/price/${category}`,requestBody)
+    }
 
     generatePDFInvoice({ order_details, file_path }) {
         const doc = new PDFDocument();
