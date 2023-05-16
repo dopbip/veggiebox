@@ -136,7 +136,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             console.log("[00000000000000000000]")
                             await Whatsapp.sendSimpleButtons({
                                 recipientPhone: recipientPhone,
-                                message: reply.toString(),
+                                message: reply,
                                 message_id,
                                 listOfButtons: [
                                     {
