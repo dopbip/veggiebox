@@ -191,7 +191,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             // respond with a list of human resources
                         await Whatsapp.sendText({
                             recipientPhone: recipientPhone,
-                            message: `Not to brag, but unlike humans, chatbots are super fast⚡, we never sleep, never rest, never take lunch🍽 and can multitask.\n\nAnway don't fret, a hoooooman will 📞contact you soon.\n\nWanna blast☎ his/her phone😈?\nHere are the contact details:`,
+                            message: `Not to brag, but unlike humans, chatbots are super fast⚡, we never sleep, never rest, never take lunch🍽 and can multitask.\n\nAnway don't fret, a hoooooman will 📞contact you soon.\n\nWanna call now?\nHere are the contact details:`,
                         });
 
                         await Whatsapp.sendContact({
