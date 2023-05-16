@@ -132,7 +132,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             console.log(zipped)
                             //Go Get fruits total price
                             let reply = await Store.getItemsPrice(zipped, 'fruit_category')
-                            console.log(reply)
+                            console.log(await Store.getItemsPrice(zipped, 'fruit_category'))
                             console.log("[00000000000000000000]")
                             await Whatsapp.sendSimpleButtons({
                                 recipientPhone: recipientPhone,
