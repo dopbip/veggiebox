@@ -26,28 +26,30 @@ module.exports = class VeggieBoxStore {
             );
         });
     }
-    async _postAssistant(endpoint, requestBody) {        
-        const options = {
-            url: `https://veggiebox-api.herokuapp.com${endpoint ? endpoint : '/'}`,
-            method: 'POST',
-            json: true,
-            body: requestBody,
-        };
-
-        request(options, (error, res, body) => {
-            try {
-                if (error) {
+    async _postAssistant(endpoint, requestBody) { 
+        return new Promise((resolve, reject) => {
+            const options = {
+                url: `https://veggiebox-api.herokuapp.com${endpoint ? endpoint : '/'}`,
+                method: 'POST',
+                json: true,
+                body: requestBody,
+            };
+    
+            request(options, (error, res, body) => {
+                try {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve({
+                            status: 'success',
+                            data: body,
+                        });
+                    }
+                } catch (error) {
                     reject(error);
-                } else {
-                    resolve({
-                        status: 'success',
-                        data: body,
-                    });
                 }
-            } catch (error) {
-                reject(error);
-            }
-        });
+            });
+        })       
     }
     async getProductById(productId) {
         return await this._fetchAssistant(`/products/${productId}`);
