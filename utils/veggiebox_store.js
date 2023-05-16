@@ -27,6 +27,7 @@ module.exports = class VeggieBoxStore {
         });
     }
     async getItemsPrice(itemObj, categoryId) {
+        let replyText
         var options = {
             'method': 'POST',
             'url': `https://veggiebox-api.herokuapp.com/api/products/price`,
@@ -43,7 +44,8 @@ module.exports = class VeggieBoxStore {
         request(options, (error, response) => {
             if (error) throw new Error(error);
             console.log(response.body);
-            return response.body
+             replyText = response.body
+             return replyText
           });
     }
     async getProductById(productId) {
