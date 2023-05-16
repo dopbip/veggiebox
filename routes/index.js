@@ -139,7 +139,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 listOfButtons: [
                                     {
                                         title: 'Add to cart🛒',
-                                        id: `add_to_cart_${product_id}`,
+                                        id: `add_to_cart_`,
                                     },
                                     {
                                         title: 'See more products',
