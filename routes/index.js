@@ -133,6 +133,24 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             //Go Get fruits total price
                             let reply = await Store.getItemsPrice(zipped, 'fruit_category')
                             console.log(reply)
+                            await Whatsapp.sendSimpleButtons({
+                                recipientPhone: recipientPhone,
+                                message: reply,
+                                listOfButtons: [
+                                    {
+                                        title: 'Add to cart🛒',
+                                        id: `add_to_cart_${product_id}`,
+                                    },
+                                    {
+                                        title: 'See more products',
+                                        id: 'see_categories',
+                                    },                                
+                                    {
+                                        title: 'Speak to a human',
+                                        id: 'speak_to_human',
+                                    }
+                                ]
+                            })
                         break
                     default:
                         const response = {
@@ -167,10 +185,41 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             recipientPhone: recipientPhone,
                             //timestamp: timestamp,
                             }
-                        Whatsapp.sendText(reply)
+                        await Whatsapp.sendText(reply)
                         break;
-                    case '':
+                    case 'speak_to_human':
+                            // respond with a list of human resources
+                        await Whatsapp.sendText({
+                            recipientPhone: recipientPhone,
+                            message: `Not to brag, but unlike humans, chatbots are super fast⚡, we never sleep, never rest, never take lunch🍽 and can multitask.\n\nAnway don't fret, a hoooooman will 📞contact you soon.\n\nWanna blast☎ his/her phone😈?\nHere are the contact details:`,
+                        });
 
+                        await Whatsapp.sendContact({
+                            recipientPhone: recipientPhone,
+                            contact_profile: {
+                                addresses: [
+                                    {
+                                        city: 'Lusaka',
+                                        country: 'Zambia',
+                                    },
+                                ],
+                                name: {
+                                    first_name: 'Kachinga',
+                                    last_name: 'Schezongo',
+                                },
+                                org: {
+                                    company: 'VeggieBox',
+                                },
+                                phones: [
+                                    {
+                                        phone: '+260 95 5752603',
+                                    },
+                                    {
+                                        phone: '+260 978681630',
+                                    },
+                                ],
+                            },
+                        });
                         break
 
                     default:
