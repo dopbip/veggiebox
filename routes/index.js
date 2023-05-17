@@ -82,12 +82,13 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                 CustomerSession.get(recipientPhone).cart.push(itemsPricesArr);
             };
             if (typeOfMsg === 'location_message') {
-                console.log(CustomerSession.get(recipientPhone).cart.length)
                 if (CustomerSession.get(recipientPhone).cart.length === 0){
                     await Whatsapp.sendText({
                         recipientPhone: recipientPhone,
                          message: "I need you location only for delivery, looks like you cart is emplty at the moment"
                         })
+                } else {
+                    CustomerSession.get(recipientPhone).location = incomingMessage.location
                 }
             }
             if (typeOfMsg === 'text_message') {
@@ -173,13 +174,13 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             })
                         break
                     default:
-                        const response = {
-                            message: fulfillmentText,
-                            recipientPhone: recipientPhone,
-                            //timestamp: timestamp,
-                            };
-                            console.log(fulfillmentText)
-                            await Whatsapp.sendText(response)
+                        // const response = {
+                        //     message: fulfillmentText,
+                        //     recipientPhone: recipientPhone,
+                        //     //timestamp: timestamp,
+                        //     };
+                        //     console.log(fulfillmentText)
+                        //     await Whatsapp.sendText(response)
                         break;
                 }
 
@@ -280,7 +281,47 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                         });
                         break
                     case "checkout":
-
+                        // Save ordered items before clearing cart
+                        let listOrder = await Store.postItemsOrdered(CustomerSession)
+                        if(listOrder.status === "success") {
+                            let totalBill = 0;
+                            let invoiceText = `List of items in your cart:\n`;
+        
+                            listOrder.data.forEach((item, index) => {
+                                let serial = index + 1;
+                                totalBill += item.price
+                                invoiceText += `\n#${serial}: ${item.name} @ k${item.price}`;
+                            });
+        
+                            invoiceText += `\n\nTotal: $${totalBill}`;
+        
+                            Store.generatePDFInvoice({
+                                order_details: invoiceText,
+                                file_path: `./invoices/invoice_${recipientPhone}.pdf`,
+                            });
+        
+                            await Whatsapp.sendText({
+                                message: invoiceText,
+                                recipientPhone: recipientPhone,
+                            });
+        
+                            await Whatsapp.sendSimpleButtons({
+                                recipientPhone: recipientPhone,
+                                message: `Thank you for shopping with us, ${recipientName}.\n\nYour order has been received & will be processed shortly.`,
+                                message_id,
+                                listOfButtons: [
+                                    {
+                                        title: 'See more products',
+                                        id: 'see_categories',
+                                    },
+                                    {
+                                        title: 'Print my invoice',
+                                        id: 'print_invoice',
+                                    },
+                                ],
+                            });
+                            clearCart({ recipientPhone });
+                        }                                                
                         break
                     default:
                         break;
