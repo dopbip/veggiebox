@@ -83,7 +83,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             };
             if (typeOfMsg === 'location_message') {
                 console.log(CustomerSession.get(recipientPhone).cart)
-                if (CustomerSession.get(recipientPhone).cart == []){
+                if (CustomerSession.get(recipientPhone).cart === []){
                     await Whatsapp.sendText({
                         recipientPhone: recipientPhone,
                          message: "I need you location only for delivery, looks like you cart is emplty at the moment"
