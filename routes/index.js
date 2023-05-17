@@ -2,6 +2,7 @@
 const VeggieBoxStore = require('../utils/veggiebox_store.js');
 let Store = new VeggieBoxStore();
 const CustomerSession = new Map();
+const itemsPricesArr = []
 const router = require('express').Router();
 const WhatsappCloudAPI = require('whatsappcloudapi_wrapper');
 const { SessionsClient } = require('dialogflow');
@@ -16,7 +17,6 @@ const config = {
       client_email: process.env.DIALOGFLOW_CLIENT_EMAIL
     }
   };
-
 // Create a new JWT client using the service account key
 // const client = new JWT({
 //     keyFile: keyFilePath,
@@ -70,6 +70,25 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             // Create a new Dialogflow session client using the service account key
             const sessionClient = new SessionsClient(config);
             
+             // Start of cart logic
+             if (!CustomerSession.get(recipientPhone)) {
+                CustomerSession.set(recipientPhone, {
+                    cart: [],
+                    location: {}
+                });
+            }
+
+            let addToCart = async ({recipientPhone , itemsPricesArr}) => {
+                CustomerSession.get(recipientPhone).cart.push(itemsPricesArr);
+            };
+            if (typeOfMsg === 'location_message') {
+                if (CustomerSession.get(recipientPhone).cart == []){
+                    await Whatsapp.sendText({
+                        recipientPhone: recipientPhone,
+                         message: "I need you location only for delivery, looks like you cart is emplty at the moment"
+                        })
+                }
+            }
             if (typeOfMsg === 'text_message') {
                 let incomingMessageContent = incomingMessage.text.body;
                 console.log("))))))incomingMessage)))))")
@@ -127,7 +146,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                     let price = item.numberValue
                                     arrFruitsPrice.push(price)
                                 })
-                                var zipped = _.zip(arrFruitsName, arrFruitsPrice)
+                                itemsPricesArr = _.zip(arrFruitsName, arrFruitsPrice)
                                 console.log("++++listPriceOrdered+++")
                             console.log(zipped)
                             //Go Get fruits total price
@@ -139,7 +158,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 listOfButtons: [
                                     {
                                         title: 'Add to cart🛒',
-                                        id: `add_to_cart_`,
+                                        id: `add_to_cart`,
                                     },
                                     {
                                         title: 'See more products',
@@ -221,7 +240,47 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             },
                         });
                         break
+                    case "see_categories":
+                        await Whatsapp.sendSimpleButtons({
+                            message: `Here you go 😊\nPlease choose from the following:`,
+                            recipientPhone: recipientPhone, 
+                            listOfButtons: [
+                                {
+                                    title: 'Fruits',
+                                    id: 'fruit_category',
+                                },
+                                {
+                                    title: 'Vegetables',
+                                    id: 'veg_category',
+                                },
+                                {
+                                    title: 'Speak to a human',
+                                    id: 'speak_to_human',
+                                },
+                            ],
+                        });
+                        break
+                    case "add_to_cart":
+                        await addToCart({recipientPhone, itemsPricesArr})
+                        await Whatsapp.sendSimpleButtons({
+                            message: `Your cart has been updated.\n\nWhat do you want to do next?`,
+                            recipientPhone: recipientPhone,
+                            message_id,
+                            listOfButtons: [
+                                {
+                                    title: 'Checkout 🛍️',
+                                    id: `checkout`,
+                                },
+                                {
+                                    title: 'See more products',
+                                    id: 'see_categories',
+                                },
+                            ],
+                        });
+                        break
+                    case "checkout":
 
+                        break
                     default:
                         break;
                 }
