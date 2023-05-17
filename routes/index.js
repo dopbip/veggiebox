@@ -82,7 +82,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                 CustomerSession.get(recipientPhone).cart.push(itemsPricesArr);
             };
             if (typeOfMsg === 'location_message') {
-                console.log(CustomerSession.get(recipientPhone).cart == [])
+                console.log(CustomerSession.get(recipientPhone).cart)
                 if (CustomerSession.get(recipientPhone).cart == []){
                     await Whatsapp.sendText({
                         recipientPhone: recipientPhone,
