@@ -82,7 +82,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                 CustomerSession[recipientPhone]["cart"].push(itemsPricesArr);
             };
             if (typeOfMsg === 'location_message') {
-                if (CustomerSession[recipientPhone]["cart"].length === 0){
+                if (Object.keys(CustomerSession).length === 0){
                     await Whatsapp.sendText({
                         recipientPhone: recipientPhone,
                          message: "I need you location only for delivery, looks like you cart is emplty at the moment"
@@ -306,7 +306,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                     case "add_to_cart":                       
                         await addToCart({recipientPhone, itemsPricesArr})
                         await Whatsapp.sendSimpleButtons({
-                            message: `Your cart has been updated.\n\nWhat do you want to do next?`,
+                            message: `✅ Your cart has been updated.\nWhat do you want to do next?`,
                             recipientPhone: recipientPhone,
                             message_id,
                             listOfButtons: [
@@ -315,7 +315,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                     id: `checkout`,
                                 },
                                 {
-                                    title: 'See more products',
+                                    title: 'Add more items to cart🛒',
                                     id: 'see_categories',
                                 },
                                 {
@@ -330,6 +330,23 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             recipientPhone: recipientPhone,
                             message: "Please share your location for delivery 📍"
                         })                                                
+                        break
+                    case "clear_cart":
+                        await Whatsapp.sendSimpleButtons({
+                            recipientPhone: recipientPhone,
+                            message: "✅ DONE\n",
+                            message_id,
+                            listOfButtons: [
+                                {
+                                    title: 'See more products',
+                                    id: 'see_categories',
+                                },                                
+                                {
+                                    title: 'Speak to a human',
+                                    id: 'speak_to_human',
+                                }
+                            ]
+                        })
                         break
                     default:
                         break;
