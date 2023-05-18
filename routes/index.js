@@ -262,7 +262,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             ],
                         });
                         break
-                    case "add_to_cart":
+                    case "add_to_cart":                       
                         await addToCart({recipientPhone, itemsPricesArr})
                         await Whatsapp.sendSimpleButtons({
                             message: `Your cart has been updated.\n\nWhat do you want to do next?`,
@@ -281,6 +281,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                         });
                         break
                     case "checkout":
+                        console.log(CustomerSession)
                         // Save ordered items before clearing cart
                         let listOrder = await Store.postItemsOrdered(CustomerSession)
                         if(listOrder.status === "success") {
