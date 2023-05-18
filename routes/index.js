@@ -2,7 +2,7 @@
 const VeggieBoxStore = require('../utils/veggiebox_store.js');
 let Store = new VeggieBoxStore();
 const CustomerSession = new Map();
-const itemsPricesArr = []
+let itemsPricesArr
 const router = require('express').Router();
 const WhatsappCloudAPI = require('whatsappcloudapi_wrapper');
 const { SessionsClient } = require('dialogflow');
