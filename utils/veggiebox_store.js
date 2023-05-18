@@ -52,6 +52,8 @@ module.exports = class VeggieBoxStore {
         })       
     }
     async postItemsOrdered(requestBody) {
+        console.log("PPPPPPPPPP")
+        console.log(requestBody)
         return await this._postAssistant(`/api/products/saveOrder`, requestBody)
     }
     async getProductById(productId) {
