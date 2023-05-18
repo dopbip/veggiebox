@@ -55,7 +55,7 @@ module.exports = class VeggieBoxStore {
         console.log("PPPPPPPPPP")
 
         console.log(json.stringify(requestBody))
-        return await this._postAssistant(`/api/products/saveOrder`, requestBody)
+        return await this._postAssistant(`/api/products/saveOrder`, json.stringify(requestBody))
     }
     async getProductById(productId) {
         return await this._fetchAssistant(`/products/${productId}`);
