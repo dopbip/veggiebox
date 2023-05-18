@@ -1,7 +1,7 @@
 'use strict';
 const VeggieBoxStore = require('../utils/veggiebox_store.js');
 let Store = new VeggieBoxStore();
-const CustomerSession = new Map();
+const CustomerSession = {};
 let itemsPricesArr
 const router = require('express').Router();
 const WhatsappCloudAPI = require('whatsappcloudapi_wrapper');
@@ -71,24 +71,24 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             const sessionClient = new SessionsClient(config);
             
              // Start of cart logic
-             if (!CustomerSession.get(recipientPhone)) {
-                CustomerSession.set(recipientPhone, {
-                    cart: [],
-                    location: {}
-                });
+             if (Object.keys(CustomerSession).length === 0) {
+                CustomerSession[recipientPhone] = {
+                    "cart": [],
+                    "location": {}
+                  };
             }
 
             let addToCart = async ({recipientPhone , itemsPricesArr}) => {
-                CustomerSession.get(recipientPhone).cart.push(itemsPricesArr);
+                CustomerSession[recipientPhone]["cart"].push(itemsPricesArr);
             };
             if (typeOfMsg === 'location_message') {
-                if (CustomerSession.get(recipientPhone).cart.length === 0){
+                if (CustomerSession[recipientPhone]["cart"].length === 0){
                     await Whatsapp.sendText({
                         recipientPhone: recipientPhone,
                          message: "I need you location only for delivery, looks like you cart is emplty at the moment"
                         })
                 } else {
-                    CustomerSession.get(recipientPhone).location = incomingMessage.location
+                    CustomerSession[recipientPhone]["location"] = incomingMessage.location
                     console.log(CustomerSession)
                     let listOrder = await Store.postItemsOrdered(CustomerSession)                    
                     if(listOrder.status === "success") {
