@@ -89,6 +89,47 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                         })
                 } else {
                     CustomerSession.get(recipientPhone).location = incomingMessage.location
+                    console.log(CustomerSession)
+                    let listOrder = await Store.postItemsOrdered(CustomerSession)                    
+                    if(listOrder.status === "success") {
+                        let totalBill = 0;
+                        let invoiceText = `List of items in your cart:\n`;
+    
+                        listOrder.data.forEach((item, index) => {
+                            let serial = index + 1;
+                            totalBill += item.price
+                            invoiceText += `\n#${serial}: ${item.name} @ k${item.price}`;
+                        });
+    
+                        invoiceText += `\n\nTotal: $${totalBill}`;
+    
+                        Store.generatePDFInvoice({
+                            order_details: invoiceText,
+                            file_path: `./invoices/invoice_${recipientPhone}.pdf`,
+                        });
+    
+                        await Whatsapp.sendText({
+                            message: invoiceText,
+                            recipientPhone: recipientPhone,
+                        });
+    
+                        await Whatsapp.sendSimpleButtons({
+                            recipientPhone: recipientPhone,
+                            message: `Thank you for shopping with us, ${recipientName}.\n\nYour order has been received & will be processed shortly.`,
+                            message_id,
+                            listOfButtons: [
+                                {
+                                    title: 'See more products',
+                                    id: 'see_categories',
+                                },
+                                {
+                                    title: 'Print my invoice',
+                                    id: 'print_invoice',
+                                },
+                            ],
+                        });
+                        clearCart({ recipientPhone });
+                    }
                 }
             }
             if (typeOfMsg === 'text_message') {
@@ -277,52 +318,18 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                     title: 'See more products',
                                     id: 'see_categories',
                                 },
+                                {
+                                    title: 'Clear cart🛒',
+                                    id: 'clear_cart',
+                                },
                             ],
                         });
                         break
                     case "checkout":
-                        console.log(CustomerSession)
-                        // Save ordered items before clearing cart
-                        let listOrder = await Store.postItemsOrdered(CustomerSession)
-                        if(listOrder.status === "success") {
-                            let totalBill = 0;
-                            let invoiceText = `List of items in your cart:\n`;
-        
-                            listOrder.data.forEach((item, index) => {
-                                let serial = index + 1;
-                                totalBill += item.price
-                                invoiceText += `\n#${serial}: ${item.name} @ k${item.price}`;
-                            });
-        
-                            invoiceText += `\n\nTotal: $${totalBill}`;
-        
-                            Store.generatePDFInvoice({
-                                order_details: invoiceText,
-                                file_path: `./invoices/invoice_${recipientPhone}.pdf`,
-                            });
-        
-                            await Whatsapp.sendText({
-                                message: invoiceText,
-                                recipientPhone: recipientPhone,
-                            });
-        
-                            await Whatsapp.sendSimpleButtons({
-                                recipientPhone: recipientPhone,
-                                message: `Thank you for shopping with us, ${recipientName}.\n\nYour order has been received & will be processed shortly.`,
-                                message_id,
-                                listOfButtons: [
-                                    {
-                                        title: 'See more products',
-                                        id: 'see_categories',
-                                    },
-                                    {
-                                        title: 'Print my invoice',
-                                        id: 'print_invoice',
-                                    },
-                                ],
-                            });
-                            clearCart({ recipientPhone });
-                        }                                                
+                        await Whatsapp.sendText({
+                            recipientPhone: recipientPhone,
+                            message: "Please share your location for delivery 📍"
+                        })                                                
                         break
                     default:
                         break;
