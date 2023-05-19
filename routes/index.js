@@ -72,14 +72,15 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             
              // Start of cart logic
              if (Object.keys(CustomerSession).length === 0) {
-                CustomerSession[recipientPhone] = {
+                CustomerSession["oderdetails"] = {
+                    "clientNumber": recipientPhone,
                     "cart": [],
                     "location": {}
                   };
             }
 
-            let addToCart = async ({recipientPhone , itemsPricesArr}) => {
-                CustomerSession[recipientPhone]["cart"].push(itemsPricesArr);
+            let addToCart = async ({itemsPricesArr}) => {
+                CustomerSession["oderdetails"]["cart"].push(itemsPricesArr);
             };
             if (typeOfMsg === 'location_message') {
                 if (Object.keys(CustomerSession).length === 0){
@@ -88,7 +89,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                          message: "I need you location only for delivery, looks like you cart is emplty at the moment"
                         })
                 } else {
-                    CustomerSession[recipientPhone]["location"] = incomingMessage.location
+                    CustomerSession["oderdetails"]["location"] = incomingMessage.location
                     console.log(CustomerSession)
                     let listOrder = await Store.postItemsOrdered(CustomerSession)                    
                     if(listOrder.status === "success") {
@@ -304,7 +305,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                         });
                         break
                     case "add_to_cart":                       
-                        await addToCart({recipientPhone, itemsPricesArr})
+                        await addToCart({itemsPricesArr})
                         await Whatsapp.sendSimpleButtons({
                             message: `✅ Your cart has been updated.\nWhat do you want to do next?`,
                             recipientPhone: recipientPhone,
