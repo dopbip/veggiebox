@@ -316,7 +316,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                     id: `checkout`,
                                 },
                                 {
-                                    title: 'Add more items to cart🛒',
+                                    title: 'Add more to cart🛒',
                                     id: 'see_categories',
                                 },
                                 {
