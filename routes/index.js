@@ -74,13 +74,12 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
              if (Object.keys(CustomerSession).length === 0) {
                 CustomerSession["oderdetails"] = {
                     "clientNumber": recipientPhone,
-                    "cart": [],
                     "location": {}
                   };
             }
 
             let addToCart = async ({itemsPricesArr}) => {
-                CustomerSession["oderdetails"]["cart"].push(itemsPricesArr);
+                CustomerSession["oderdetails"]["cart"] = (itemsPricesArr);
             };
             if (typeOfMsg === 'location_message') {
                 if (Object.keys(CustomerSession).length === 0){
