@@ -79,7 +79,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             }
 
             let addToCart = async ({itemsPricesArr}) => {
-                CustomerSession["oderdetails"]["cart"] = (itemsPricesArr);
+                CustomerSession["oderdetails"]["cart"] = itemsPricesArr;
             };
             if (typeOfMsg === 'location_message') {
                 if (Object.keys(CustomerSession).length === 0){
