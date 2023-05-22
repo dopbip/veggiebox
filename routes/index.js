@@ -390,7 +390,9 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                 }
             }
 
-                      
+            await Whatsapp.markMessageAsRead({
+                message_id,
+            });         
         }
 
         console.log('GET: Someone is pinging me!');
