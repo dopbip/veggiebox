@@ -74,7 +74,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
              if (Object.keys(CustomerSession).length === 0) {
                 console.log("---init CustomerSession---")
                 CustomerSession["oderdetails"] = {
-                    "clientNumber": recipientPhone,
+                    "recipientPhone": recipientPhone,
                     "cart": [],
                     "location": {}
                   };
