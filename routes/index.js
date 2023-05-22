@@ -95,7 +95,9 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                     if(listOrder.status === "success") {
                         let totalBill = 0;
                         let invoiceText = `List of items in your cart:\n`;
+                        console.log("OOOOOOOOOOOOOO")
                         console.log(listOrder.data)
+                        console.log("OOOOOOOOOOOOOO")
                         // listOrder.data.forEach((item, index) => {
                         //     let serial = index + 1;
                         //     totalBill += item.price
