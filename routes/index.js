@@ -376,7 +376,16 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             ]
                         })
                         break
-                    default:
+                    case "print_invoice":
+                        // Send the PDF invoice
+                        await Whatsapp.sendDocument({
+                            recipientPhone,
+                            caption: `VeggieBox Shop invoice #${recipientName}`,
+                            file_path: `./invoice_${recipientPhone}.pdf`,
+                        });
+                        break
+                    
+                        default:
                         break;
                 }
             }
