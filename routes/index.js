@@ -113,7 +113,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
     
                         Store.generatePDFInvoice({
                             order_details: invoiceText,
-                            file_path: `../invoices/invoice_${recipientPhone}.pdf`,
+                            file_path: `./invoice_${recipientPhone}.pdf`,
                         });
     
                         await Whatsapp.sendText({
