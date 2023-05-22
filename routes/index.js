@@ -103,7 +103,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                         //     totalBill += item.price
                         //     invoiceText += `\n#${serial}: ${item.name} @ k${item.price}`;
                         // });
-                        for (let i = 0; i < listOrder.data.orderedItemList.length; i++) {
+                        for (let i = 0; i < listOrder.data["orderedItemList"].length; i++) {
                             const element = array[i];
                             console.log(element)
                             let serial = index + 1;
