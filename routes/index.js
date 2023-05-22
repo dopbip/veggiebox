@@ -101,6 +101,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                         console.log("9999999999999")
                         console.log(listOrder.data["orderedItemList"])
                         console.log("9999999999999")
+                        console.log(typeof listOrder.data["orderedItemList"]);
                         // listOrder.data.forEach((item, index) => {
                         //     let serial = index + 1;
                         //     totalBill += item.price
