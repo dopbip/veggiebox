@@ -108,14 +108,22 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                         //     totalBill += item.price
                         //     invoiceText += `\n#${serial}: ${item.name} @ k${item.price}`;
                         // });
-                        for (let i = 0; i < listOrder.data["orderedItemList"].length; i++) {
+                        listOrder.data["orderedItemList"].forEach(element, i) => {
                             const element = array[i];
                             console.log(element)
                             let serial = index + 1;
                             totalBill += element.itemPrice
                             invoiceText += `\n#${serial}: ${element.itemName} @ k${element.itemPrice}`;
                             
-                        }
+                        });
+                        // for (let i = 0; i < listOrder.data["orderedItemList"].length; i++) {
+                        //     const element = array[i];
+                        //     console.log(element)
+                        //     let serial = index + 1;
+                        //     totalBill += element.itemPrice
+                        //     invoiceText += `\n#${serial}: ${element.itemName} @ k${element.itemPrice}`;
+                            
+                        // }
                         invoiceText += `\n\nTotal: $${totalBill}`;
     
                         Store.generatePDFInvoice({
