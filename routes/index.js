@@ -72,6 +72,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             
              // Start of cart logic
              if (Object.keys(CustomerSession).length === 0) {
+                console.log("---init CustomerSession---")
                 CustomerSession["oderdetails"] = {
                     "clientNumber": recipientPhone,
                     "cart": [],
