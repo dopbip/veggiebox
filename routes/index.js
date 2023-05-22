@@ -94,6 +94,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                     console.log(CustomerSession)
                     let listOrder = await Store.postItemsOrdered(CustomerSession)                    
                     if(listOrder.status === "success") {
+                        let serial = 1
                         let totalBill = 0;
                         let invoiceText = `List of items in your cart:\n`;
                         console.log("OOOOOOOOOOOOOO")
@@ -108,14 +109,6 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                         //     totalBill += item.price
                         //     invoiceText += `\n#${serial}: ${item.name} @ k${item.price}`;
                         // });
-                        listOrder.data["orderedItemList"].forEach(element, i) => {
-                            const element = array[i];
-                            console.log(element)
-                            let serial = index + 1;
-                            totalBill += element.itemPrice
-                            invoiceText += `\n#${serial}: ${element.itemName} @ k${element.itemPrice}`;
-                            
-                        });
                         // for (let i = 0; i < listOrder.data["orderedItemList"].length; i++) {
                         //     const element = array[i];
                         //     console.log(element)
@@ -124,6 +117,18 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                         //     invoiceText += `\n#${serial}: ${element.itemName} @ k${element.itemPrice}`;
                             
                         // }
+                        for (let key in listOrder.data["orderedItemList"]) {
+                            // Access each property using key
+                            let item = listOrder.data["orderedItemList"][key];
+                            // Process the item or access its properties
+                            console.log(item.itemName);
+                            console.log(item.itemPrice);
+                            console.log(item.itemPacksQty);
+                            totalBill += item.itemPrice
+                            invoiceText += `\n#${serial}: ${item.itemName} @ k${item.itemPrice}`;
+                            serial +=1
+                          }
+                          
                         invoiceText += `\n\nTotal: $${totalBill}`;
     
                         Store.generatePDFInvoice({
