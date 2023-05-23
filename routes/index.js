@@ -25,6 +25,7 @@ const config = {
 
 router.get('/meta_wa_callbackurl', (req, res) => {
     try {
+        console.log('GET: Someone is pinging me!');
         let mode = req.query['hub.mode'];
         let token = req.query['hub.verify_token'];
         let challenge = req.query['hub.challenge'];
@@ -52,7 +53,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
             accessToken: process.env.Meta_WA_accessToken,
             senderPhoneNumberId: process.env.Meta_WA_SenderPhoneNumberId,
             WABA_ID: process.env.Meta_WA_wabaId, 
-            graphAPIVersion: 'v14.0'
+            graphAPIVersion: 'v13.0'
         });
         // console.log("||||||Whatsapp.parseMessage||||||||")
         //     console.log(Whatsapp)
@@ -394,8 +395,6 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                 message_id,
             });         
         }
-
-        console.log('GET: Someone is pinging me!');
 
         return res.sendStatus(200);
     } catch (error) {
