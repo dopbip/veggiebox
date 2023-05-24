@@ -126,11 +126,11 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             console.log(item.itemPrice);
                             console.log(item.itemPacksQty);
                             totalBill += item.itemPrice
-                            invoiceText += `\n#${serial}: ${item.itemPacksQty} ${item.itemName} @ k${item.itemPrice}`;
+                            invoiceText += `\n#${serial}: ${item.itemPacksQty} ${item.packageType} ${item.itemName} @ k${item.itemPrice}`;
                             serial +=1
                           }
                           
-                        invoiceText += `\n\nTotal: $${totalBill}`;
+                        invoiceText += `\n\nTotal: k${totalBill}`;
     
                         Store.generatePDFInvoice({
                             order_details: invoiceText,
