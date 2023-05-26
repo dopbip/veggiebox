@@ -270,7 +270,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             let packedItems = product.packed_items
                             message += `${emoji} *${name} Pack of ${packedItems}  k${packPrice}*\n\n`
                         })
-                        message += `\nShare your list of item you want to order.\n_eg. 2 packs banana 5 pack red onion_`
+                        message += `\nShare your list of items you want to order.\n_eg. 2 packs banana 5 pack red onion_`
                         const reply = {
                             message: message,
                             recipientPhone: recipientPhone,
