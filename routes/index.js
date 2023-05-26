@@ -190,7 +190,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                     recipientPhone: recipientPhone, 
                                     listOfButtons: [
                                         {
-                                            title: 'Fruits',
+                                            title: 'See all items',
                                             id: 'all_items',
                                         },
                                         {
