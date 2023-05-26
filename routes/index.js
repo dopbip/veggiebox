@@ -149,7 +149,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             listOfButtons: [
                                 {
                                     title: 'See more products',
-                                    id: 'see_categories',
+                                    id: 'all_items',
                                 },
                                 {
                                     title: 'Print my invoice',
@@ -234,7 +234,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                     },
                                     {
                                         title: 'See more products',
-                                        id: 'see_categories',
+                                        id: 'all_items',
                                     },                                
                                     {
                                         title: 'Speak to a human',
@@ -270,7 +270,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             let packedItems = product.packed_items
                             message += `${emoji} *${name} Pack of ${packedItems}  k${packPrice}*\n\n`
                         })
-                        message += `\nTell me which fruits you want and how many packs.\n_eg. 2 packs banana_`
+                        message += `\nShare your list of item you want to order.\n_eg. 2 packs banana 5 pack red onion_`
                         const reply = {
                             message: message,
                             recipientPhone: recipientPhone,
@@ -312,13 +312,13 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             },
                         });
                         break
-                    case "see_categories":
+                    case "all_items":
                         await Whatsapp.sendSimpleButtons({
                             message: `Here you go 😊\nPlease choose from the following:`,
                             recipientPhone: recipientPhone, 
                             listOfButtons: [
                                 {
-                                    title: 'Fruits',
+                                    title: 'See all items',
                                     id: 'all_items',
                                 },
                                 {
@@ -345,7 +345,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                 },
                                 {
                                     title: 'Add more to cart🛒',
-                                    id: 'see_categories',
+                                    id: 'all_items',
                                 },
                                 {
                                     title: 'Clear cart🛒',
@@ -368,7 +368,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             listOfButtons: [
                                 {
                                     title: 'See more products',
-                                    id: 'see_categories',
+                                    id: 'all_items',
                                 },                                
                                 {
                                     title: 'Speak to a human',
