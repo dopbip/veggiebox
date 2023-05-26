@@ -60,9 +60,9 @@ module.exports = class VeggieBoxStore {
     async getAllCategories() {
         return await this._fetchAssistant('/products/categories?limit=100');
     }
-    async getProductsInCategory(categoryId) {
+    async getProductsInCategory() {
         return await this._fetchAssistant(
-            `/api/products/category/${categoryId}`
+            `/api/all_items`
         );
     }
 

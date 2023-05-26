@@ -191,7 +191,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                     listOfButtons: [
                                         {
                                             title: 'Fruits',
-                                            id: 'fruit_category',
+                                            id: 'all_items',
                                         },
                                         {
                                             title: 'Vegetables',
@@ -261,8 +261,8 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                 let button_id = incomingMessage.button_reply.id;
                 let message = `*FRUITS*\n\n`
                 switch (button_id) {
-                    case 'fruit_category':
-                        let listOfProducts = await Store.getProductsInCategory(button_id);
+                    case 'all_items':
+                        let listOfProducts = await Store.getProductsInCategory();
                         listOfProducts.data.map((product) => {
                             let emoji = product.emoji
                             let name = product.name
@@ -319,7 +319,7 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             listOfButtons: [
                                 {
                                     title: 'Fruits',
-                                    id: 'fruit_category',
+                                    id: 'all_items',
                                 },
                                 {
                                     title: 'Vegetables',
