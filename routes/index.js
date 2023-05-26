@@ -204,25 +204,25 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                                     ],
                                 });
                         break;
-                    case 'orderFruits':
-                                let arrFruitsName = []
-                                let arrFruitsPrice = []
-                                let listFruitOrdered = parameters.fields['list-Fruits'].listValue.values
+                    case 'vegsFruits':
+                                let arrVegsFruitsName = []
+                                let arrVegsFruitsPrice = []
+                                let listFruitOrdered = parameters.fields['vegs_fruits'].listValue.values
                                 console.log(listFruitOrdered)
                                 let listPriceOrdered = parameters.fields['number'].listValue.values
                                 listFruitOrdered.map((item) => {                                    
                                     let name = item.stringValue
-                                    arrFruitsName.push(name)                 
+                                    arrVegsFruitsName.push(name)                 
                                 })
                                 listPriceOrdered.map((item) => {
                                     let price = item.numberValue
-                                    arrFruitsPrice.push(price)
+                                    arrVegsFruitsPrice.push(price)
                                 })
-                                itemsPricesArr = _.zip(arrFruitsName, arrFruitsPrice)
+                                itemsPricesArr = _.zip(arrVegsFruitsName, arrVegsFruitsPrice)
                                 console.log("++++listPriceOrdered+++")
                             console.log(itemsPricesArr)
                             //Go Get fruits total price
-                            let reply = await Store.getItemsPrice(itemsPricesArr, 'fruit_category')
+                            let reply = await Store.getItemsPrice(itemsPricesArr)
                             await Whatsapp.sendSimpleButtons({
                                 recipientPhone: recipientPhone,
                                 message: reply.data,
