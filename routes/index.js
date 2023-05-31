@@ -158,6 +158,8 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             ],
                         });
                         //clearCart({ recipientPhone });
+                    } else{
+                        await Whatsapp.sendText({message: listOrder.data, recipientPhone: recipientPhone})
                     }
                 }
             }
@@ -223,25 +225,30 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
                             console.log(itemsPricesArr)
                             //Go Get fruits total price
                             let reply = await Store.getItemsPrice(itemsPricesArr)
-                            await Whatsapp.sendSimpleButtons({
-                                recipientPhone: recipientPhone,
-                                message: reply.data,
-                                message_id,
-                                listOfButtons: [
-                                    {
-                                        title: 'Add to cart🛒',
-                                        id: `add_to_cart`,
-                                    },
-                                    {
-                                        title: 'See more products',
-                                        id: 'all_items',
-                                    },                                
-                                    {
-                                        title: 'Speak to a human',
-                                        id: 'speak_to_human',
-                                    }
-                                ]
-                            })
+                            if (reply.status === "success") {
+                                await Whatsapp.sendSimpleButtons({
+                                    recipientPhone: recipientPhone,
+                                    message: reply.data,
+                                    message_id,
+                                    listOfButtons: [
+                                        {
+                                            title: 'Add to cart🛒',
+                                            id: `add_to_cart`,
+                                        },
+                                        {
+                                            title: 'See more products',
+                                            id: 'all_items',
+                                        },                                
+                                        {
+                                            title: 'Speak to a human',
+                                            id: 'speak_to_human',
+                                        }
+                                    ]
+                                })
+                            } else {
+                                await Whatsapp.sendText({message: reply.data, recipientPhone: recipientPhone})
+                            }
+                            
                         break
                     default:
                         // const response = {

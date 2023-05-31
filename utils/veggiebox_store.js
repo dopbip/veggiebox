@@ -66,7 +66,7 @@ module.exports = class VeggieBoxStore {
         );
     }
 
-    async getItemsPrice(requestBody, category) {
+    async getItemsPrice(requestBody) {
         return await this._postAssistant(`/api/products/price`,requestBody)
     }
 
