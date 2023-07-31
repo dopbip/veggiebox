@@ -8,7 +8,7 @@ module.exports = class VeggieBoxStore {
     async _fetchAssistant(endpoint) {
         return new Promise((resolve, reject) => {
             request.get(
-                `https://veggiebox-api.herokuapp.com${endpoint ? endpoint : '/'}`,
+                `https://veggybox-api-694915e61f18.herokuapp.com${endpoint ? endpoint : '/'}`,
                 (error, res, body) => {
                     try {
                         if (error) {
@@ -29,7 +29,7 @@ module.exports = class VeggieBoxStore {
     async _postAssistant(endpoint, requestBody) { 
         return new Promise((resolve, reject) => {
             const options = {
-                url: `https://veggiebox-api.herokuapp.com${endpoint ? endpoint : '/'}`,
+                url: `https://veggybox-api-694915e61f18.herokuapp.com${endpoint ? endpoint : '/'}`,
                 method: 'POST',
                 json: true,
                 body: requestBody,
